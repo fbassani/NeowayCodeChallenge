@@ -26,10 +26,5 @@ namespace DataIntegrationChallenge.Api.Tests {
             sb.AppendLine("new company;9876;new company url");
             return sb.ToString();
         }
-
-
-
-
-        
     }
 }

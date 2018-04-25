@@ -10,12 +10,10 @@ namespace DataIntegrationChallenge.API.Controllers {
         
         public ImportController(ICompanyDataContext companyDataContext) {
             _companyDataContext = companyDataContext;
-            
         }
         
         public async Task<IActionResult> Post(IFormFile file) {
             return await ReceiveFile(file, _companyDataContext.Import);            
         }
-
     }
 }

@@ -47,6 +47,5 @@ namespace DataIntegrationChallenge.Api.Tests.Helpers {
         public void FindColumnIndex_MissingNotRequiredColumn_DoesNotThrow() {
             Assert.DoesNotThrow(() => CsvReader.FindColumnIndex(TestCsv.MissingWebsiteColumnHeader, "website", false));
         }
-        
     }
 }
