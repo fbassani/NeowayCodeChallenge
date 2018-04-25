@@ -37,6 +37,16 @@ namespace DataIntegrationChallenge.Api.Tests.Helpers {
             var index = CsvReader.FindColumnIndex(TestCsv.DifferentColumnOrderHeader, column);
             Assert.AreEqual(expectedIndex, index);
         }
-
+        
+        [Test]
+        public void FindColumnIndex_MissingRequiredColumn_ThrowsCsvException() {
+            Assert.Throws<CsvException>(() => CsvReader.FindColumnIndex(TestCsv.MissingNameColumnHeader, "name"));
+        }
+        
+        [Test]
+        public void FindColumnIndex_MissingNotRequiredColumn_DoesNotThrow() {
+            Assert.DoesNotThrow(() => CsvReader.FindColumnIndex(TestCsv.MissingWebsiteColumnHeader, "website", false));
+        }
+        
     }
 }

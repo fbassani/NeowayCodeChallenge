@@ -33,12 +33,6 @@ namespace DataIntegrationChallenge.Api.Tests.Controllers {
         }
         
         [Test]
-        public async Task Get_WithId_ShouldSearchById() {
-            await _controller.Get(Id);
-            _dataContextMock.Verify(d => d.FindById(Id));
-        }
-        
-        [Test]
         public async Task Upload_WithFile_ShouldMergeData() {
             await _controller.Upload(_file.Object);
             _dataContextMock.Verify(d => d.Merge(It.IsAny<IEnumerable<CompanyDto>>()));

@@ -8,6 +8,10 @@ namespace DataIntegrationChallenge.Api.Tests {
         public static string[] DifferentColumnOrderHeader => new[] {"website", "name", "addressZip"};
 
         public static string MergeCsv => CreateMergeCsv();
+        
+        public static string[] MissingNameColumnHeader => new[] {"website", "addressZip"};
+        
+        public static string[] MissingWebsiteColumnHeader => new[] {"name", "addressZip"};
 
         private static string CreateCsv() {
             var sb = new StringBuilder();
@@ -22,6 +26,10 @@ namespace DataIntegrationChallenge.Api.Tests {
             sb.AppendLine("new company;9876;new company url");
             return sb.ToString();
         }
+
+
+
+
         
     }
 }

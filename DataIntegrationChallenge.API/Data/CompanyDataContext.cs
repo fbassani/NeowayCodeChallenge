@@ -15,11 +15,6 @@ namespace DataIntegrationChallenge.API.Data {
             _collection = mongoDatabase.GetCollection<CompanyDto>(collectionName);
         }
 
-        public async Task<List<CompanyDto>> FindAll() {
-            var cursor = await _collection.FindAsync(_ => true);
-            return await cursor.ToListAsync();
-        }
-
         public async Task<List<CompanyDto>> FindByNameAndZip(string name, string zip) {
             var builder = Builders<CompanyDto>.Filter;
             var filter = builder.Regex(c => c.Name, new BsonRegularExpression($"/.*{name}.*/i")) &
@@ -27,11 +22,6 @@ namespace DataIntegrationChallenge.API.Data {
 
             var cursor = await _collection.FindAsync(filter);
             return await cursor.ToListAsync();
-        }
-
-        public async Task<CompanyDto> FindById(string id) {
-            var filter = Builders<CompanyDto>.Filter.Eq(c => c.Id, id);
-            return await _collection.Find(filter).FirstAsync();
         }
 
         public async Task Merge(IEnumerable<CompanyDto> newData) {
@@ -46,6 +36,11 @@ namespace DataIntegrationChallenge.API.Data {
                 operations.Add(new UpdateManyModel<CompanyDto>(filter, update));
             }
             await _collection.BulkWriteAsync(operations);
+        }
+
+        public async Task Import(IEnumerable<CompanyDto> companies) {
+            await _collection.Indexes.CreateOneAsync(Builders<CompanyDto>.IndexKeys.Ascending(c => c.Name));
+            await _collection.InsertManyAsync(companies);
         }
     }
 }    

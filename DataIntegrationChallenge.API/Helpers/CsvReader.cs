@@ -16,21 +16,21 @@ namespace DataIntegrationChallenge.API.Helpers {
             var headerLine = lines[0].ToLower().Split(new[] {Separator}, StringSplitOptions.RemoveEmptyEntries);
             var nameCol = FindColumnIndex(headerLine, Name);
             var zipCol = FindColumnIndex(headerLine, Zip);
-            var websiteCol = FindColumnIndex(headerLine, Website);
+            var websiteCol = FindColumnIndex(headerLine, Website, false);
 
             for (var i = 1; i < lines.Length; i++) {
                 var line = lines[i].Split(Separator);
                 yield return new CompanyDto {
                     Name = line[nameCol],
                     AddressZip = line[zipCol],
-                    Website = line[websiteCol]
+                    Website = websiteCol != -1 ? line[websiteCol] : null
                 };
             }
         }
 
-        internal static int FindColumnIndex(string[] headercolumns, string columnName) {
+        internal static int FindColumnIndex(string[] headercolumns, string columnName, bool required = true) {
             var index =  Array.IndexOf(headercolumns, columnName);
-            if (index == -1) {
+            if (index == -1 && required) {
                 throw new CsvException($"Missing column '{columnName}'");
             }
 
